@@ -13,8 +13,8 @@ class ListAllUsersController {
 
     try {
       allUsers = this.listAllUsersUseCase.execute({ user_id });
-    } catch (error) {
-      return response.status(400).json(error.message);
+    } catch ({ message }) {
+      return response.status(400).json({ error: message });
     }
 
     return response.status(200).json(allUsers);

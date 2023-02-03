@@ -12,8 +12,8 @@ class ShowUserProfileController {
     let user: User;
     try {
       user = this.showUserProfileUseCase.execute({ user_id });
-    } catch (error) {
-      return response.status(404).json(error.message);
+    } catch ({ message }) {
+      return response.status(404).json({ error: message });
     }
     return response.status(200).json(user);
   }

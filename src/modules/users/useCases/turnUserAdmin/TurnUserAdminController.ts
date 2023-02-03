@@ -13,8 +13,8 @@ class TurnUserAdminController {
 
     try {
       user = this.turnUserAdminUseCase.execute({ user_id });
-    } catch (error) {
-      return response.status(404).json(error.message);
+    } catch ({ message }) {
+      return response.status(404).json({ error: message });
     }
     return response.status(200).json(user);
   }
