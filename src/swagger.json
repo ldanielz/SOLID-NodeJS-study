@@ -1,0 +1,188 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api test SOLID",
+    "description": "A simple test framework",
+    "version": "1.0.0",
+    "contact": {
+      "email": "ldaniel.eng@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "summary": "Represent users",
+      "description": "Gerenciamento de usuários",
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "applications/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Daniel",
+                  "email": "ldaniel.eng@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "admin":{
+                        "type": "boolean"
+                        
+                      },
+                      "id": {
+                        "type":"string",
+                        "format":"uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example":"username"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format":"email"
+                      },                      
+                      "created_at": {
+                        "type": "string",
+                        "format":"date-time"
+                      },
+                      "updated_at": {
+                        "type":"string",
+                        "format":"date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User with email already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List",
+        "description": "List all users",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format":"date-time"
+                      },
+                      "updated_at": {
+                        "type":"string",
+                        "format":"date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "O usuário não tem permissão"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "summary": "Represent users",
+      "description": "Rota para modificar o status do usuário",
+      "patch": {
+        "summary": "Turn user admin",
+        "description": "Turn user to admin",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {}
+        }
+      }
+    },
+    "/users/{user_id}": {}
+  }
+}

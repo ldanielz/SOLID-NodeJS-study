@@ -1,5 +1,4 @@
 import { Response, Request } from "express";
-import { User } from "modules/users/model/User";
 
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
