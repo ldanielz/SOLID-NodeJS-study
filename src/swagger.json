@@ -16,8 +16,8 @@
         "tags": [
           "Users"
         ],
-        "summary": "Create user",
-        "description": "Create a new user",
+        "summary": "Cria um novo usuário",
+        "description": "Cria um novo usuario",
         "requestBody": {
           "content": {
             "applications/json": {
@@ -37,11 +37,12 @@
                 }
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Operacao realizada com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -49,29 +50,28 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "admin":{
+                      "admin": {
                         "type": "boolean"
-                        
                       },
                       "id": {
-                        "type":"string",
-                        "format":"uuid"
+                        "type": "string",
+                        "format": "uuid"
                       },
                       "name": {
                         "type": "string",
-                        "example":"username"
+                        "example": "username"
                       },
                       "email": {
                         "type": "string",
-                        "format":"email"
-                      },                      
+                        "format": "email"
+                      },
                       "created_at": {
                         "type": "string",
-                        "format":"date-time"
+                        "format": "date-time"
                       },
                       "updated_at": {
-                        "type":"string",
-                        "format":"date-time"
+                        "type": "string",
+                        "format": "date-time"
                       }
                     }
                   }
@@ -88,12 +88,13 @@
         "tags": [
           "Users"
         ],
-        "summary": "List",
-        "description": "List all users",
+        "summary": "Retorna todos os usuários",
+        "description": "Somente usuarios `admin` podem acessar",
         "parameters": [
           {
             "in": "header",
             "name": "user_id",
+            "description": "ID do usuario",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -122,11 +123,11 @@
                       },
                       "created_at": {
                         "type": "string",
-                        "format":"date-time"
+                        "format": "date-time"
                       },
                       "updated_at": {
-                        "type":"string",
-                        "format":"date-time"
+                        "type": "string",
+                        "format": "date-time"
                       }
                     }
                   }
@@ -141,11 +142,9 @@
       }
     },
     "/users/{user_id}/admin": {
-      "summary": "Represent users",
-      "description": "Rota para modificar o status do usuário",
       "patch": {
-        "summary": "Turn user admin",
-        "description": "Turn user to admin",
+        "summary": "Torna admin o usuario",
+        "description": "Torna `Admin` o usuario",
         "tags": [
           "Users"
         ],
@@ -153,6 +152,7 @@
           {
             "in": "path",
             "name": "user_id",
+            "description": "ID do usuario",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -179,10 +179,73 @@
               }
             }
           },
-          "404": {}
+          "404": {
+            "description": "Usuario nao encontrado"
+          }
         }
       }
     },
-    "/users/{user_id}": {}
+    "/users/{user_id}": {
+      "get": {
+        "summary": "Retorna um usuário especifico",
+        "description": "Retorna um usuário especifico",
+        "tags": [
+          "Users"
+        ],
+        "style": "form",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "ID do usuario",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "username"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuario nao encontrado"
+          }
+        }
+      }
+    }
   }
 }
